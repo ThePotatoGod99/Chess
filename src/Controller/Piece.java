@@ -3,7 +3,9 @@ package Controller;
 import Data.Board;
 import Data.Point;
 
+import static Data.Board.EMPTY;
 import static Data.Board.ROOK;
+import static Data.Board.SELECTED;
 
 /**
  * Created by simon on 06/12/16.
@@ -11,22 +13,36 @@ import static Data.Board.ROOK;
 public class Piece{
     
     
-    
     boolean isDead = false;
-    Point position;
-    int type;
-    public Piece(int theType){
+    public Point position;
+    public char type;
+    
+    public boolean selected = false;
+    
+    public Piece(char theType){
         type = theType;
     }
-    
+   
+    public static Piece createEmptyAt(Point position){
+        Piece piece = new Piece(EMPTY);
+        piece.setPosition(position);
+        return piece;
+    }
+    public static Piece createXAt(Point position){
+        Piece piece = new Piece('X');
+        piece.setPosition(position);
+        return piece;
+    }
     public Point[] getPossibleDirection(Board theBoard){
-        Point[] result = new Point[64];
+        Point[] result = new Point[0];
         
         switch(type){
             case ROOK:
                 result = getPossibleRookDirection(theBoard, position);
                 break;
             default:
+                System.out.println("ERROR");
+                result = new Point[0];
                 break;
         }
         
@@ -37,45 +53,54 @@ public class Piece{
     public Point[] getPossibleRookDirection(Board theBoard, Point thePosition){
         Point[] result = new Point[64];
         int i = 0;
-        System.out.println("ASDFASDF");
-        for(int x = thePosition.x + 1; x < theBoard.width && theBoard.objectAt(new Point(x, thePosition.y)) == 0; x++){//Direction right
-            if(theBoard.objectAt(new Point(x, thePosition.y)) == 0){
+        for(int x = thePosition.x + 1; x < theBoard.getWidth() && theBoard.objectAt(new Point(x, thePosition.y)).type == EMPTY; x++){//Direction right
+            if(theBoard.objectAt(new Point(x, thePosition.y)).type == EMPTY){
                 result[i] = new Point(x, thePosition.y);
                 i++;
             }
         }
-    
-        for(int x = thePosition.x - 1; x >= 0 && theBoard.objectAt(new Point(x, thePosition.y)) == 0; x--){//Direction left
-            if(theBoard.objectAt(new Point(x, thePosition.y)) == 0){
+        
+        for(int x = thePosition.x - 1; x >= 0 && theBoard.objectAt(new Point(x, thePosition.y)).type == EMPTY; x--){//Direction left
+            if(theBoard.objectAt(new Point(x, thePosition.y)).type== EMPTY){
                 result[i] = new Point(x, thePosition.y);
                 i++;
             }
         }
-    
-        for(int y = thePosition.y + 1; y < theBoard.height && theBoard.objectAt(new Point(thePosition.x, y)) == 0; y++){//Direction down
-            if(theBoard.objectAt(new Point(thePosition.x, y)) == 0){
+        
+        for(int y = thePosition.y + 1; y < theBoard.getHeight() && theBoard.objectAt(new Point(thePosition.x, y)).type == EMPTY; y++){//Direction down
+            if(theBoard.objectAt(new Point(thePosition.x, y)).type == EMPTY){
                 result[i] = new Point(thePosition.x, y);
                 i++;
             }
         }
         
-        for(int y = thePosition.y - 1; y >= 0 && theBoard.objectAt(new Point(thePosition.x, y)) == 0; y--){//Direction down
-    
-            System.out.println(thePosition.x + " : " +  y + " board " + theBoard.objectAt(new Point(thePosition.x, y)));
-            if(theBoard.objectAt(new Point(thePosition.x, y)) == 0){
+        for(int y = thePosition.y - 1; y >= 0 && theBoard.objectAt(new Point(thePosition.x, y)).type  == EMPTY; y--){//Direction down
+            
+            //System.out.println(thePosition.x + " : " + y + " board " + theBoard.objectAt(new Point(thePosition.x, y)));
+            if(theBoard.objectAt(new Point(thePosition.x, y)).type == EMPTY){
                 result[i] = new Point(thePosition.x, y);
                 
                 i++;
             }
         }
-    
+        
+        
         
         Point[] result1 = new Point[i];
         for(int j = 0; j < i; j++){
             result1[j] = result[j];
         }
-    
+        
         return result1;
+    }
+    
+    public char getType(){
+        if(!selected){
+            return type;
+        }
+        else{
+            return SELECTED;
+        }
     }
     
     

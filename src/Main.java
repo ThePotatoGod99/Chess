@@ -5,6 +5,10 @@ import View.GameView;
 
 import javax.swing.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import static Data.Board.ROOK;
 
 /**
@@ -23,37 +27,102 @@ public class Main{
         frame.setVisible(true);*/
         
         Board board = new Board();
-    
-        int[] allo7 = {0, 0, 0, 0, 0, 0, 0, 0};
-        int[] allo6 = {0, 0, 0, 0, 0, 0, 0, 0};
-        int[] allo5 = {0, 0, 0, 0, 0, 0, 0, 0};
-        int[] allo4 = {0, 0, 0, 0, 0, 0, 0, 0};
-        int[] allo3 = {0, 0, 0, 0, 0, 0, 0, 0};
-        int[] allo2 = {3, 3, 3, 0, 0, 3, 3, 4};
-        int[] allo1 = {0, 0, 0, 0, 0, 0, 0, 0};
-        int[] allo0 = {0, 0, 0, 0, 0, 0, 0, 0};
-        int[][] allo = {allo0, allo1,allo2,allo3,allo4,allo5,allo6,allo7};
+        
+        char[] allo7 = {'0', '0', '0', '0', '0', '0', '0', '0'};
+        char[] allo6 = {'0', '0', '0', '0', '0', '0', '0', '0'};
+        char[] allo5 = {'0', '0', '0', '0', '2', '0', '0', '0'};
+        char[] allo4 = {'0', '0', '0', '0', '0', '0', '0', '0'};
+        char[] allo3 = {'0', '0', '0', '0', '0', '0', '0', '0'};
+        char[] allo2 = {'3', '3', '3', '0', '0', '3', '3', '4'};
+        char[] allo1 = {'0', '0', '0', '0', '0', '0', '0', '0'};
+        char[] allo0 = {'0', '0', '0', '0', '0', '0', '0', '0'};
+        char[][] allo = {allo0, allo1, allo2, allo3, allo4, allo5, allo6, allo7};
         
         
+        board = Board.createBoardFromTypeMatrice(allo);
         
-        board.data = allo;
-        for(int y = 0; y < allo.length; y++){
-            for(int x = 0; x < allo[y].length; x++){
-                System.out.print(board.objectAt(new Point(x, y)) + " : ");
-            }
-            System.out.println();
-        }
+        /*
+        [0] [0] [4] [0] [0] [0] [0] [0]
+        [0] [0] [3] [0] [0] [0] [0] [0]
+        [0] [0] [3] [0] [0] [0] [0] [0]
+        [0] [0] [0] [0] [0] [0] [0] [0]
+        [0] [0] [X] [0] [0] [0] [0] [0]
+        [0] [0] [3] [0] [0] [0] [0] [0]
+        [0] [0] [3] [0] [0] [0] [0] [0]
+        [0] [0] [3] [0] [0] [0] [0] [0]
+         */
         
         
-        
-       //
+        // board.printBoard();
         Piece piece = new Piece(ROOK);
-        piece.setPosition(new Point(5, 5));
-        Point[] result  = piece.getPossibleDirection(board);
+        piece.setPosition(new Point(2, 3));
+        board.addToBoard(piece);
+        // System.out.println("ASDFADSF");
+        // board.showPossibleDirectionForPiece(piece);
         
-        for(Point point : result){
-            System.out.println("\nx: " + point.x + "  y: " + point.y);
+        // board.printBoard();
+        //for(Point point : result){
+        //    System.out.println("\nx: " + point.x + "  y: " + point.y);
+        //}
+        
+        
+        boolean continuer = true;
+        board.setSelectedPiece(board.objectAt(new Point(2, 3)));
+        
+        
+        while(continuer){
+            String fonction = scanInput();
+            try{
+                switch(fonction.charAt(0)){
+                    case 'p':
+                        System.out.println(board.showPossibleDirections);
+                        clearScreen();
+                        board.printBoard();
+                        break;
+                    case 's':
+                        boolean shouldShowDirections = board.showPossibleDirections;
+                        board.hidePossibleDirections();
+                        clearScreen();
+                        int x = fonction.charAt(1) - '0';
+                        int y = fonction.charAt(2) - '0';
+                        board.setSelectedPiece(board.objectAt(new Point(x, y)));
+                        System.out.println(shouldShowDirections);
+                        if(shouldShowDirections){
+                            board.showPossibleDirectionForPiece(board.getSelectedPiece());
+                        }
+                        break;
+                    case 'd':
+                        board.showPossibleDirectionForPiece(board.getSelectedPiece());
+                        break;
+                    case 'h':
+                        board.hidePossibleDirections();
+                        break;
+                    case 'e':
+                        continuer = false;
+                    default:
+                        break;
+                }
+            } catch(IndexOutOfBoundsException e){
+                System.out.println("Command not found");
+            }
         }
+    }
+    
+    public static void clearScreen(){
+        for(int i = 0; i < 10; i++){
+            System.out.println("\n");
+        }
+    }
+    
+    public static String scanInput(){
+        try{
+            BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+            return bufferRead.readLine();
+            
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 

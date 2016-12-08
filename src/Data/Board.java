@@ -13,8 +13,8 @@ public class Board{
     public static final char SELECTED = 'O';
     public static final char POSSIBLE_DIRECTION = 'X';
     
-    private int width = 8;
-    private int height = 8;
+    private final int width = 8;
+    private final int height = 8;
     
     private Piece[][] data = new Piece[width][height];
     private Piece selectedPiece;

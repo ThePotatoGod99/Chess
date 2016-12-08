@@ -10,17 +10,15 @@ import Data.Point;
  */
 public class CommandLineView extends GameView{
     public CommandLineView(){
-        
     }
-    
     
     @Override
     public void printBoard(Board board){
-        for(int y = board.getData().length - 1; y >= 0; y--){
-            for(int x = 0; x < board.getData()[y].length; x++){
-                char result = board.objectAt(new Point(x, y)).getType();
-                String patatte = Character.toString(result);
-                System.out.print("[" + patatte + "] ");
+        Piece[][] data = board.getData();
+        for(int y = data.length - 1; y >= 0; y--){
+            for(int x = 0; x < data[y].length; x++){
+                String result = board.objectAt(new Point(x, y)).getStringType();
+                System.out.print("[" + result + "] ");
             }
             System.out.println();
         }
@@ -34,9 +32,9 @@ public class CommandLineView extends GameView{
     
     @Override
     public void clearScreen(){
-        for(int i = 0; i < 100; i++){
+        
+        for(int i = 0; i < 100; i++)
             System.out.println("\n");
-        }
     }
 }
 

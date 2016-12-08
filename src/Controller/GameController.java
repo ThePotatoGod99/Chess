@@ -15,22 +15,19 @@ public class GameController{
     public GameController(Board board){
         this.board = board;
     }
-    
-    public static GameController CommandLineController(Board board){
-        GameController gameController = new GameController(board);
-        gameController.gameView = new CommandLineView();
-        return gameController;
+    public void initCommandLineView(){
+        gameView = new CommandLineView();
     }
-    
+    public boolean movePiece(Piece piece, Point point){
+        return board.movePiece(piece, point);
+    }
+    public boolean moveSelectedPiece(Point point){
+        return movePiece(board.getSelectedPiece(), point);
+    }
     public boolean selectPiece(Point point){
-        boolean shouldShowDirections = board.showPossibleDirections;
-        board.hidePossibleDirections();
         gameView.clearScreen();
         Piece thePiece = board.objectAt(point);
         board.setSelectedPiece(board.objectAt(point));
-        if(shouldShowDirections){
-            board.showPossibleDirectionForPiece(board.getSelectedPiece());
-        }
         return true; //TO CHANGE
     }
     public void updateBoard(){
@@ -40,7 +37,8 @@ public class GameController{
         gameView.printSelectedPiece(board);
     }
     
-    public void printBoard(){
+    public void showBoard(){
+        
         gameView.printBoard(board);
     }
     

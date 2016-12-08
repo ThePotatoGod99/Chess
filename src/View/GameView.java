@@ -14,7 +14,7 @@ public class GameView{
         
     }
     
-    public boolean showPossibleDirections;
+    //public boolean showPossibleDirections;
     
     public void printBoard(Board board){
     }
@@ -22,11 +22,11 @@ public class GameView{
     public void printSelectedPiece(Board board){
     }
     
-    public void showPossibleDirectionForPiece(Board board, Piece piece){
-    }
+//    public void showPossibleDirectionForPiece(Board board, Piece piece){
+  //  }
     
-    public void hidePossibleDirections(Board board){
-    }
+    //public void hidePossibleDirections(Board board){
+    //}
     
     
     public void updateScreen(Board board){

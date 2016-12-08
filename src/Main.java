@@ -53,53 +53,36 @@ public class Main{
         [0] [0] [3] [0] [0] [0] [0] [0]
         [0] [0] [3] [0] [0] [0] [0] [0]
          */
-        
-        
-        // board.printBoard();
         Piece piece = new Piece(ROOK);
         piece.setPosition(new Point(2, 3));
         board.addToBoard(piece);
-        // System.out.println("ASDFADSF");
-        // board.showPossibleDirectionForPiece(piece);
-        
-        // board.printBoard();
-        //for(Point point : result){
-        //    System.out.println("\nx: " + point.x + "  y: " + point.y);
-        //}
-        
-        
         boolean continuer = true;
         board.setSelectedPiece(board.objectAt(new Point(2, 3)));
     
     
-        GameController controller = GameController.CommandLineController(board);
+        GameController controller = new GameController(board);
+        controller.initCommandLineView();
         
         while(continuer){
             String fonction = scanInput();
             try{
                 switch(fonction.charAt(0)){
                     case 'p':
-                        controller.updateBoard();
+                        controller.showBoard();
+                        
                         break;
                     case 's':
                         int x = fonction.charAt(1) - '0';
                         int y = fonction.charAt(2) - '0';
-                        
                         controller.selectPiece(new Point(x, y));
-                        break;
-                    case 'd':
-                        board.showPossibleDirectionForPiece(board.getSelectedPiece());
-                        break;
-                    case 'h':
-                        board.hidePossibleDirections();
                         break;
                     case 'e':
                         continuer = false;
                     case 'm':
-                        Point point = new Point(fonction.charAt(1) - '0', fonction.charAt(2) - '0');
-                                
-                        if(!board.moveSelectedPiece(point)){
-                            System.out.println("Please select a valid destination");
+                        x = fonction.charAt(1) - '0';
+                        y = fonction.charAt(2) - '0';
+                        if(!controller.moveSelectedPiece(new Point(x, y))){
+                            System.out.println("Select Valid Destination");
                         }
                         break;
                     default:

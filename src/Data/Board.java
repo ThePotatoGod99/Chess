@@ -2,6 +2,7 @@ package Data;
 
 import Controller.Piece;
 
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
 /**
@@ -17,10 +18,7 @@ public class Board{
     private final int height = 8;
     
     private Piece[][] data = new Piece[width][height];
-    private Piece selectedPiece;
-    
-    public boolean showPossibleDirections = false;
-    
+    private Point selectedPiece;
     public Board(){
         for(int i = 0; i < data.length; i++){
             for(int j = 0; j < data[i].length; j++){
@@ -35,21 +33,56 @@ public class Board{
     }
     
     
-    public void movePiece(Piece piece, Point point){
-        addToBoard(Piece.createXAt(piece.position));
-        piece.setPosition(point);
-        addToBoard(selectedPiece);
+    public boolean movePiece(Piece piece, Point point){
+        if(objectAt(point).getType() == POSSIBLE_DIRECTION){
+            Piece emptyPiece = Piece.createEmptyAt(selectedPiece);
+            getSelectedPiece().setPosition(point);
+            addToBoard(getSelectedPiece());
+            selectedPiece = point;
+            System.out.println(" DSF " + getSelectedPiece().type + selectedPiece.x);
+            addToBoard(emptyPiece);
+            System.out.println(getSelectedPiece().position.x + " : " + emptyPiece.selected + " : " + getSelectedPiece().selected);
+            resetBoard();
+           /* Piece newPiece = getSelectedPiece();
+            System.out.println(" ASDF " +getSelectedPiece().position.x);
+            newPiece.setPosition(point);
+            System.out.println(getSelectedPiece().position.x);
+            
+            
+            Piece secondPiece = Piece.createEmptyAt(getSelectedPiece().position);
+            
+            addToBoard(Piece.createEmptyAt(getSelectedPiece().position));
+            addToBoard(newPiece);
+            setSelectedPiece(newPiece);
+            
+            
+            resetBoard();*/
+            return true;
+        }
+        return false;
     }
     
     public boolean moveSelectedPiece(Point point){// Returns false if couldn't move piece
-        boolean result = false;
-        if(objectAt(point).type == EMPTY || objectAt(point).type == POSSIBLE_DIRECTION){
-            movePiece(selectedPiece, point);
-            result = true;
-        }
-        return result;
+     //   selectedPiece = point;
+        return movePiece(getSelectedPiece(), point);
     }
     
+    public void resetBoard(){
+        for(Piece[] row:data){
+            for(Piece piece : row){
+                if(piece.getType() == POSSIBLE_DIRECTION){
+                    piece.setType(EMPTY);
+                }
+              //  else if(piece.selected){
+                //    piece.selected = false;
+                //}
+            }
+        }
+      //  System.out.println(selectedPiece.x);
+      //  getSelectedPiece().selected = true;
+        showPossibleDirectionForSelectedPiece();
+        
+    }
     public static Board createBoardFromTypeMatrice(char[][] theData){
         Board board = new Board();
         for(int y = theData.length - 1; y >= 0; y--){
@@ -64,26 +97,14 @@ public class Board{
     
     
     
-    public void showPossibleDirectionForPiece(Piece piece){
-        showPossibleDirections = true;
-        
-        hidePossibleDirections();
-        Point[] result = piece.getPossibleDirection(this);
+    
+    public void showPossibleDirectionForSelectedPiece(){
+        Point[] result = getSelectedPiece().getPossibleDirection(this);
         for(Point point : result){//To delete
             addToBoard(Piece.createXAt(new Point(point.x, point.y)));
         }
     }
     
-    public void hidePossibleDirections(){
-        //  showPossibleDirections = false;
-        for(int i = 0; i < getData().length; i++){
-            for(int j = 0; j < getData()[i].length; j++){
-                if(getData()[i][j].type == 'X'){
-                    addToBoard(Piece.createEmptyAt(new Point(i, j)));
-                }
-            }
-        }
-    }
     
     //Getters-Setters
     
@@ -92,15 +113,16 @@ public class Board{
     }
     
     public Piece getSelectedPiece(){
-        return selectedPiece;
+        return objectAt(selectedPiece);
     }
     
     public void setSelectedPiece(Piece thePiece){
         if(selectedPiece != null){
-            selectedPiece.selected = false;
+            getSelectedPiece().selected = false;
         }
-        selectedPiece = thePiece;
-        thePiece.selected = true;
+        selectedPiece = thePiece.position;
+        getSelectedPiece().selected = true;
+        showPossibleDirectionForSelectedPiece();
     }
     
     public int getWidth(){
@@ -111,13 +133,7 @@ public class Board{
         return height;
     }
     
-    public void setWidth(int newWidth){
-        width = newWidth;
-    }
     
-    public void setHeight(int newHeight){
-        height = newHeight;
-    }
     
     public void setData(Piece[][] newData){
         data = newData;

@@ -15,7 +15,7 @@ public class Piece{
     
     boolean isDead = false;
     public Point position;
-    public char type;
+    public char type;//tochange
     
     public boolean selected = false;
     
@@ -35,13 +35,12 @@ public class Piece{
     }
     public Point[] getPossibleDirection(Board theBoard){
         Point[] result = new Point[0];
-        
         switch(type){
             case ROOK:
                 result = getPossibleRookDirection(theBoard, position);
                 break;
             default:
-                System.out.println("ERROR");
+                System.out.println("ERROR " + getType() + " ]");
                 result = new Point[0];
                 break;
         }
@@ -76,7 +75,6 @@ public class Piece{
         
         for(int y = thePosition.y - 1; y >= 0 && theBoard.objectAt(new Point(thePosition.x, y)).type  == EMPTY; y--){//Direction down
             
-            //System.out.println(thePosition.x + " : " + y + " board " + theBoard.objectAt(new Point(thePosition.x, y)));
             if(theBoard.objectAt(new Point(thePosition.x, y)).type == EMPTY){
                 result[i] = new Point(thePosition.x, y);
                 
@@ -94,6 +92,9 @@ public class Piece{
         return result1;
     }
     
+    public void setType(char type){
+        this.type = type;
+    }
     public char getType(){
         if(!selected){
             return type;
@@ -101,6 +102,10 @@ public class Piece{
         else{
             return SELECTED;
         }
+    }
+    
+    public String getStringType(){
+        return Character.toString(getType());
     }
     
     

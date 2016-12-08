@@ -2,13 +2,16 @@ package Data;
 
 import Controller.Piece;
 
+import java.awt.*;
+
 /**
  * Created by simon on 06/12/16.
  */
 public class Board{
-    public static final char EMPTY = '0';//change to char
+    public static final char EMPTY = ' ';//change to char
     public static final char ROOK = '2';
     public static final char SELECTED = 'O';
+    public static final char POSSIBLE_DIRECTION = 'X';
     
     private int width = 8;
     private int height = 8;
@@ -31,46 +34,21 @@ public class Board{
         data[thePiece.position.x][thePiece.position.y] = thePiece;
     }
     
-    public void printBoard(){
-        for(int y = data.length - 1; y >= 0; y--){
-            for(int x = 0; x < data[y].length; x++){
-                char result = this.objectAt(new Point(x, y)).getType();
-                String patatte = Character.toString(result);
-                System.out.print("[" + patatte + "] ");
-            }
-            System.out.println();
-        }
+    
+    public void movePiece(Piece piece, Point point){
+        addToBoard(Piece.createXAt(piece.position));
+        piece.setPosition(point);
+        addToBoard(selectedPiece);
     }
     
-    public void showPossibleDirectionForPiece(Piece piece){
-        showPossibleDirections = true;
-        
-        System.out.println(showPossibleDirections);
-        
-        
-        
-        
-        
-        
-        
-        hidePossibleDirections();
-        Point[] result = piece.getPossibleDirection(this);
-        for(Point point : result){//To delete
-            this.addToBoard(Piece.createXAt(new Point(point.x, point.y)));
+    public boolean moveSelectedPiece(Point point){// Returns false if couldn't move piece
+        boolean result = false;
+        if(objectAt(point).type == EMPTY || objectAt(point).type == POSSIBLE_DIRECTION){
+            movePiece(selectedPiece, point);
+            result = true;
         }
+        return result;
     }
-    
-    public void hidePossibleDirections(){
-      //  showPossibleDirections = false;
-        for(int i = 0; i < data.length; i++){
-            for(int j = 0; j < data[i].length; j++){
-                if(data[i][j].type == 'X'){
-                    this.addToBoard(Piece.createEmptyAt(new Point(i, j)));
-                }
-            }
-        }
-    }
-    
     
     public static Board createBoardFromTypeMatrice(char[][] theData){
         Board board = new Board();
@@ -86,6 +64,27 @@ public class Board{
     
     
     
+    public void showPossibleDirectionForPiece(Piece piece){
+        showPossibleDirections = true;
+        
+        hidePossibleDirections();
+        Point[] result = piece.getPossibleDirection(this);
+        for(Point point : result){//To delete
+            addToBoard(Piece.createXAt(new Point(point.x, point.y)));
+        }
+    }
+    
+    public void hidePossibleDirections(){
+        //  showPossibleDirections = false;
+        for(int i = 0; i < getData().length; i++){
+            for(int j = 0; j < getData()[i].length; j++){
+                if(getData()[i][j].type == 'X'){
+                    addToBoard(Piece.createEmptyAt(new Point(i, j)));
+                }
+            }
+        }
+    }
+    
     //Getters-Setters
     
     public Piece objectAt(Point index){
@@ -95,6 +94,7 @@ public class Board{
     public Piece getSelectedPiece(){
         return selectedPiece;
     }
+    
     public void setSelectedPiece(Piece thePiece){
         if(selectedPiece != null){
             selectedPiece.selected = false;
@@ -106,12 +106,15 @@ public class Board{
     public int getWidth(){
         return width;
     }
+    
     public int getHeight(){
         return height;
     }
+    
     public void setWidth(int newWidth){
         width = newWidth;
     }
+    
     public void setHeight(int newHeight){
         height = newHeight;
     }
@@ -119,8 +122,9 @@ public class Board{
     public void setData(Piece[][] newData){
         data = newData;
     }
+    
     public Piece[][] getData(){
         return data;
     }
-    
+     
 }

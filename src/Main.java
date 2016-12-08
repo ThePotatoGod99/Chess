@@ -1,3 +1,4 @@
+import Controller.GameController;
 import Controller.Piece;
 import Data.Board;
 import Data.Point;
@@ -9,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import static Data.Board.EMPTY;
 import static Data.Board.ROOK;
 
 /**
@@ -28,14 +30,14 @@ public class Main{
         
         Board board = new Board();
         
-        char[] allo7 = {'0', '0', '0', '0', '0', '0', '0', '0'};
-        char[] allo6 = {'0', '0', '0', '0', '0', '0', '0', '0'};
-        char[] allo5 = {'0', '0', '0', '0', '2', '0', '0', '0'};
-        char[] allo4 = {'0', '0', '0', '0', '0', '0', '0', '0'};
-        char[] allo3 = {'0', '0', '0', '0', '0', '0', '0', '0'};
-        char[] allo2 = {'3', '3', '3', '0', '0', '3', '3', '4'};
-        char[] allo1 = {'0', '0', '0', '0', '0', '0', '0', '0'};
-        char[] allo0 = {'0', '0', '0', '0', '0', '0', '0', '0'};
+        char[] allo7 = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+        char[] allo6 = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+        char[] allo5 = {' ', ' ', ' ', ' ', '2', ' ', ' ', ' '};
+        char[] allo4 = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+        char[] allo3 = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+        char[] allo2 = {'3', '3', '3', ' ', ' ', '3', '3', '4'};
+        char[] allo1 = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+        char[] allo0 = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
         char[][] allo = {allo0, allo1, allo2, allo3, allo4, allo5, allo6, allo7};
         
         
@@ -68,28 +70,19 @@ public class Main{
         
         boolean continuer = true;
         board.setSelectedPiece(board.objectAt(new Point(2, 3)));
-        
+    
+    
+        GameController controller = new GameController(board);
         
         while(continuer){
             String fonction = scanInput();
             try{
                 switch(fonction.charAt(0)){
                     case 'p':
-                        System.out.println(board.showPossibleDirections);
-                        clearScreen();
-                        board.printBoard();
+                        controller.updateBoard();
                         break;
                     case 's':
-                        boolean shouldShowDirections = board.showPossibleDirections;
-                        board.hidePossibleDirections();
-                        clearScreen();
-                        int x = fonction.charAt(1) - '0';
-                        int y = fonction.charAt(2) - '0';
-                        board.setSelectedPiece(board.objectAt(new Point(x, y)));
-                        System.out.println(shouldShowDirections);
-                        if(shouldShowDirections){
-                            board.showPossibleDirectionForPiece(board.getSelectedPiece());
-                        }
+                        
                         break;
                     case 'd':
                         board.showPossibleDirectionForPiece(board.getSelectedPiece());
@@ -99,6 +92,13 @@ public class Main{
                         break;
                     case 'e':
                         continuer = false;
+                    case 'm':
+                        Point point = new Point(fonction.charAt(1) - '0', fonction.charAt(2) - '0');
+                                
+                        if(!board.moveSelectedPiece(point)){
+                            System.out.println("Please select a valid destination");
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -108,11 +108,6 @@ public class Main{
         }
     }
     
-    public static void clearScreen(){
-        for(int i = 0; i < 10; i++){
-            System.out.println("\n");
-        }
-    }
     
     public static String scanInput(){
         try{

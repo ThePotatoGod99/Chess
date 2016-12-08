@@ -107,4 +107,21 @@ public class Piece{
     public void setPosition(Point point){
         position = point;
     }
+    public String getName(){
+        String result = "";
+        switch(type){
+            case EMPTY:
+                result = "EMPTY";
+                break;
+            case ROOK:
+                result = "ROOK";
+                break;
+                
+            default:
+                result = "EMPTY";
+                break;
+                
+        }
+        return result;
+    }
 }

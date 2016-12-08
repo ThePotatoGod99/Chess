@@ -31,6 +31,7 @@ public class GameController{
         if(shouldShowDirections){
             board.showPossibleDirectionForPiece(board.getSelectedPiece());
         }
+        return true; //TO CHANGE
     }
     public void updateBoard(){
         gameView.updateScreen(board);

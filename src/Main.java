@@ -72,7 +72,7 @@ public class Main{
         board.setSelectedPiece(board.objectAt(new Point(2, 3)));
     
     
-        GameController controller = new GameController(board);
+        GameController controller = GameController.CommandLineController(board);
         
         while(continuer){
             String fonction = scanInput();
@@ -82,7 +82,10 @@ public class Main{
                         controller.updateBoard();
                         break;
                     case 's':
+                        int x = fonction.charAt(1) - '0';
+                        int y = fonction.charAt(2) - '0';
                         
+                        controller.selectPiece(new Point(x, y));
                         break;
                     case 'd':
                         board.showPossibleDirectionForPiece(board.getSelectedPiece());

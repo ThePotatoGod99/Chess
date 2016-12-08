@@ -20,6 +20,8 @@ public class Board{
     private Piece[][] data = new Piece[width][height];
     private Point selectedPiece;
     public Board(){
+        
+        selectedPiece = new Point(2,3);
         for(int i = 0; i < data.length; i++){
             for(int j = 0; j < data[i].length; j++){
                 this.addToBoard(Piece.createEmptyAt(new Point(i, j)));
@@ -39,31 +41,14 @@ public class Board{
             getSelectedPiece().setPosition(point);
             addToBoard(getSelectedPiece());
             selectedPiece = point;
-            System.out.println(" DSF " + getSelectedPiece().type + selectedPiece.x);
             addToBoard(emptyPiece);
-            System.out.println(getSelectedPiece().position.x + " : " + emptyPiece.selected + " : " + getSelectedPiece().selected);
             resetBoard();
-           /* Piece newPiece = getSelectedPiece();
-            System.out.println(" ASDF " +getSelectedPiece().position.x);
-            newPiece.setPosition(point);
-            System.out.println(getSelectedPiece().position.x);
-            
-            
-            Piece secondPiece = Piece.createEmptyAt(getSelectedPiece().position);
-            
-            addToBoard(Piece.createEmptyAt(getSelectedPiece().position));
-            addToBoard(newPiece);
-            setSelectedPiece(newPiece);
-            
-            
-            resetBoard();*/
             return true;
         }
         return false;
     }
     
     public boolean moveSelectedPiece(Point point){// Returns false if couldn't move piece
-     //   selectedPiece = point;
         return movePiece(getSelectedPiece(), point);
     }
     
@@ -73,13 +58,8 @@ public class Board{
                 if(piece.getType() == POSSIBLE_DIRECTION){
                     piece.setType(EMPTY);
                 }
-              //  else if(piece.selected){
-                //    piece.selected = false;
-                //}
             }
         }
-      //  System.out.println(selectedPiece.x);
-      //  getSelectedPiece().selected = true;
         showPossibleDirectionForSelectedPiece();
         
     }
@@ -94,9 +74,6 @@ public class Board{
         }
         return board;
     }
-    
-    
-    
     
     public void showPossibleDirectionForSelectedPiece(){
         Point[] result = getSelectedPiece().getPossibleDirection(this);
@@ -122,7 +99,7 @@ public class Board{
         }
         selectedPiece = thePiece.position;
         getSelectedPiece().selected = true;
-        showPossibleDirectionForSelectedPiece();
+        resetBoard();
     }
     
     public int getWidth(){

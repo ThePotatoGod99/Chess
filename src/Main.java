@@ -59,7 +59,6 @@ public class Main{
         boolean continuer = true;
         board.setSelectedPiece(board.objectAt(new Point(2, 3)));
     
-    
         GameController controller = new GameController(board);
         controller.initCommandLineView();
         

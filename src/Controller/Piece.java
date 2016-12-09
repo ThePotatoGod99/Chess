@@ -35,8 +35,6 @@ public class Piece{
         Piece newPiece = new Piece(piece.type, piece.isTeamWhite);
         newPiece.isPossibleDestination = true;
         newPiece.setPosition(piece.position);
-        
-        System.out.println(piece.position.x + " : " + piece.position.y);
         return newPiece;
     }
     
@@ -59,7 +57,7 @@ public class Piece{
     public Point[] getPossibleRookDirection(Board theBoard, Point thePosition){
         Point[] result = new Point[64];
         int i = 0;
-        for(int x = thePosition.x + 1; x < theBoard.getWidth() && theBoard.objectAt(new Point(x, thePosition.y)).type == EMPTY; x++){//Direction right
+        for(int x = thePosition.x + 1; x < theBoard.getWidth(); x++){//Direction right
             Piece object = theBoard.objectAt(new Point(x, thePosition.y));
             if(object.type == EMPTY){
                 result[i] = new Point(x, thePosition.y);
@@ -72,7 +70,7 @@ public class Piece{
             }
         }
         
-        for(int x = thePosition.x - 1; x >= 0 && theBoard.objectAt(new Point(x, thePosition.y)).type == EMPTY; x--){//Direction left
+        for(int x = thePosition.x - 1; x >= 0; x--){//Direction left
             Piece object = theBoard.objectAt(new Point(x, thePosition.y));
             if(object.type == EMPTY){
                 result[i] = new Point(x, thePosition.y);
@@ -85,7 +83,7 @@ public class Piece{
             }
         }
         
-        for(int y = thePosition.y + 1; y < theBoard.getHeight() && theBoard.objectAt(new Point(thePosition.x, y)).type == EMPTY; y++){//Direction down
+        for(int y = thePosition.y + 1; y < theBoard.getHeight(); y++){//Direction down
             Piece object = theBoard.objectAt(new Point(thePosition.x, y));
             if(object.type == EMPTY){
                 result[i] = new Point(thePosition.x, y);
@@ -98,7 +96,7 @@ public class Piece{
             }
         }
         
-        for(int y = thePosition.y - 1; y >= 0 && theBoard.objectAt(new Point(thePosition.x, y)).type == EMPTY; y--){//Direction down
+        for(int y = thePosition.y - 1; y >= 0; y--){//Direction down
     
             Piece object = theBoard.objectAt(new Point(thePosition.x, y));
             if(object.type == EMPTY){

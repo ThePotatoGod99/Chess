@@ -24,20 +24,22 @@ public class Piece{
         type = theType;
         this.isTeamWhite = isTeamWhite;
     }
-   
+    
     public static Piece createEmptyAt(Point position){
         Piece piece = new Piece(EMPTY, false);
         piece.setPosition(position);
         return piece;
     }
+    
     public static Piece createXAt(Piece piece){
         Piece newPiece = new Piece(piece.type, piece.isTeamWhite);
         newPiece.isPossibleDestination = true;
         newPiece.setPosition(piece.position);
         
-        System.out.println(piece.position.x + " : " +piece.position.y);
+        System.out.println(piece.position.x + " : " + piece.position.y);
         return newPiece;
     }
+    
     public Point[] getPossibleDirection(Board theBoard){
         Point[] result = new Point[0];
         switch(type){
@@ -59,38 +61,57 @@ public class Piece{
         int i = 0;
         for(int x = thePosition.x + 1; x < theBoard.getWidth() && theBoard.objectAt(new Point(x, thePosition.y)).type == EMPTY; x++){//Direction right
             Piece object = theBoard.objectAt(new Point(x, thePosition.y));
-            if(object.type == EMPTY || object.isTeamWhite != this.isTeamWhite){
-                if(object.isTeamWhite != this.isTeamWhite){
-                    break;
-                }
+            if(object.type == EMPTY){
                 result[i] = new Point(x, thePosition.y);
                 i++;
+            }
+            else if(object.isTeamWhite != this.isTeamWhite){
+                result[i] = new Point(x, thePosition.y);
+                i++;
+                break;
             }
         }
         
         for(int x = thePosition.x - 1; x >= 0 && theBoard.objectAt(new Point(x, thePosition.y)).type == EMPTY; x--){//Direction left
-            if(theBoard.objectAt(new Point(x, thePosition.y)).type== EMPTY){
+            Piece object = theBoard.objectAt(new Point(x, thePosition.y));
+            if(object.type == EMPTY){
                 result[i] = new Point(x, thePosition.y);
                 i++;
+            }
+            else if(object.isTeamWhite != this.isTeamWhite){
+                result[i] = new Point(x, thePosition.y);
+                i++;
+                break;
             }
         }
         
         for(int y = thePosition.y + 1; y < theBoard.getHeight() && theBoard.objectAt(new Point(thePosition.x, y)).type == EMPTY; y++){//Direction down
-            if(theBoard.objectAt(new Point(thePosition.x, y)).type == EMPTY){
+            Piece object = theBoard.objectAt(new Point(thePosition.x, y));
+            if(object.type == EMPTY){
                 result[i] = new Point(thePosition.x, y);
                 i++;
             }
+            else if(object.isTeamWhite != this.isTeamWhite){
+                result[i] = new Point(thePosition.x, y);
+                i++;
+                break;
+            }
         }
         
-        for(int y = thePosition.y - 1; y >= 0 && theBoard.objectAt(new Point(thePosition.x, y)).type  == EMPTY; y--){//Direction down
-            
-            if(theBoard.objectAt(new Point(thePosition.x, y)).type == EMPTY){
+        for(int y = thePosition.y - 1; y >= 0 && theBoard.objectAt(new Point(thePosition.x, y)).type == EMPTY; y--){//Direction down
+    
+            Piece object = theBoard.objectAt(new Point(thePosition.x, y));
+            if(object.type == EMPTY){
                 result[i] = new Point(thePosition.x, y);
                 
                 i++;
             }
+            else if(object.isTeamWhite != this.isTeamWhite){
+                result[i] = new Point(thePosition.x, y);
+                i++;
+                break;
+            }
         }
-        
         
         
         Point[] result1 = new Point[i];
@@ -104,6 +125,7 @@ public class Piece{
     public void setType(char type){
         this.type = type;
     }
+    
     public char getType(){
         if(selected){
             return SELECTED;
@@ -124,6 +146,7 @@ public class Piece{
     public void setPosition(Point point){
         position = point;
     }
+    
     public String getName(){
         String result = "";
         switch(type){
@@ -133,11 +156,11 @@ public class Piece{
             case ROOK:
                 result = "ROOK";
                 break;
-                
+            
             default:
                 result = "EMPTY";
                 break;
-                
+            
         }
         return result;
     }

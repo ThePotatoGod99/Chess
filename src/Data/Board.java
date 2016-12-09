@@ -12,16 +12,17 @@ public class Board{
     public static final char EMPTY = ' ';//change to char
     public static final char ROOK = '2';
     public static final char SELECTED = 'O';
-   public static final char POSSIBLE_DIRECTION = 'X';
+    public static final char POSSIBLE_DIRECTION = 'X';
     
     private final int width = 8;
     private final int height = 8;
     
     private Piece[][] data = new Piece[width][height];
     private Point selectedPiece;
+    
     public Board(){
         
-        selectedPiece = new Point(2,3);
+        selectedPiece = new Point(2, 3);
         for(int i = 0; i < data.length; i++){
             for(int j = 0; j < data[i].length; j++){
                 this.addToBoard(Piece.createEmptyAt(new Point(i, j)));
@@ -53,16 +54,15 @@ public class Board{
     }
     
     public void resetBoard(){
-        for(Piece[] row:data){
+        for(Piece[] row : data){
             for(Piece piece : row){
-                if(piece.isPossibleDestination){
-                    piece.setType(EMPTY);
-                }
+                piece.isPossibleDestination = false;
             }
         }
         showPossibleDirectionForSelectedPiece();
         
     }
+    
     public static Board createBoardFromTypeMatrice(char[][] theData){
         Board board = new Board();
         for(int y = theData.length - 1; y >= 0; y--){
@@ -112,7 +112,6 @@ public class Board{
     }
     
     
-    
     public void setData(Piece[][] newData){
         data = newData;
     }
@@ -120,5 +119,5 @@ public class Board{
     public Piece[][] getData(){
         return data;
     }
-     
+    
 }

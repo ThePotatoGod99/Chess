@@ -5,6 +5,8 @@ import Controller.Piece;
 import Data.Board;
 import Data.Point;
 
+import static Data.Board.EMPTY;
+
 /**
  * Created by simon on 08/12/16.
  */
@@ -17,8 +19,17 @@ public class CommandLineView extends GameView{
         Piece[][] data = board.getData();
         for(int y = data.length - 1; y >= 0; y--){
             for(int x = 0; x < data[y].length; x++){
-                String result = board.objectAt(new Point(x, y)).getStringType();
-                System.out.print("[" + result + "] ");
+                Piece object = board.objectAt(new Point(x, y));
+                String result = object.getStringType();
+                if(object.isPossibleDestination){
+                    if(object.type == EMPTY){
+                        result = ".";
+                    }
+                    System.out.print(" {" + result + "} ");
+                }
+                else{
+                    System.out.print(" [" + result + "] ");
+                }
             }
             System.out.println();
         }

@@ -9,10 +9,10 @@ import java.awt.*;
  * Created by simon on 06/12/16.
  */
 public class Board{
-    public static final char EMPTY = ' ';//change to char
-    public static final char ROOK = '2';
-    public static final char SELECTED = 'O';
-    public static final char POSSIBLE_DIRECTION = 'X';
+    public static final int EMPTY = -1;//change to char
+    public static final int ROOK = 2;
+    public static final int SELECTED = 0;
+    public static final int POSSIBLE_DIRECTION = -2;
     
     private final int width = 8;
     private final int height = 8;
@@ -63,11 +63,11 @@ public class Board{
         
     }
     
-    public static Board createBoardFromTypeMatrice(char[][] theData){
+    public static Board createBoardFromTypeMatrice(int[][] theData){
         Board board = new Board();
         for(int y = theData.length - 1; y >= 0; y--){
             for(int x = 0; x < theData[y].length; x++){
-                char type = theData[x][y];
+                int type = theData[x][y];
                 Piece piece = new Piece(type, false);
                 piece.setPosition(new Point(x, y));
                 board.addToBoard(piece);

@@ -30,15 +30,15 @@ public class Main{
         
         Board board = new Board();
         
-        char[] allo7 = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-        char[] allo6 = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-        char[] allo5 = {' ', ' ', ' ', ' ', '2', ' ', ' ', ' '};
-        char[] allo4 = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-        char[] allo3 = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-        char[] allo2 = {'3', '3', '3', ' ', ' ', '3', '3', '4'};
-        char[] allo1 = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-        char[] allo0 = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-        char[][] allo = {allo0, allo1, allo2, allo3, allo4, allo5, allo6, allo7};
+        int[] allo7 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+        int[] allo6 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+        int[] allo5 = {EMPTY, EMPTY, EMPTY, EMPTY, ROOK, EMPTY, EMPTY, EMPTY};
+        int[] allo4 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+        int[] allo3 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+        int[] allo2 = {3, 3, 3, EMPTY, EMPTY, 3, 3, 4};
+        int[] allo1 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+        int[] allo0 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+        int[][] allo = {allo0, allo1, allo2, allo3, allo4, allo5, allo6, allo7};
         
         
         board = Board.createBoardFromTypeMatrice(allo);

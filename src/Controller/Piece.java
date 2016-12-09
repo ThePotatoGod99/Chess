@@ -13,14 +13,14 @@ public class Piece{
     
     boolean isDead = false;
     public Point position;
-    public char type;//tochange
+    public int type;//tochange
     
     public boolean isTeamWhite;
     
     public boolean selected = false;
     public boolean isPossibleDestination = false;
     
-    public Piece(char theType, boolean isTeamWhite){
+    public Piece(int theType, boolean isTeamWhite){
         type = theType;
         this.isTeamWhite = isTeamWhite;
     }
@@ -120,16 +120,13 @@ public class Piece{
         return result1;
     }
     
-    public void setType(char type){
+    public void setType(int type){
         this.type = type;
     }
     
-    public char getType(){
+    public int getType(){
         if(selected){
             return SELECTED;
-        }
-        else if(isPossibleDestination){
-            return POSSIBLE_DIRECTION;
         }
         else{
             return type;
@@ -137,7 +134,21 @@ public class Piece{
     }
     
     public String getStringType(){
-        return Character.toString(getType());
+        char character = (char)getType();
+        switch(getType()){
+            case SELECTED:
+                character = 'O';
+                break;
+            case EMPTY:
+                character = ' ';
+                break;
+            default:
+                character += '0';
+                break;
+                
+                
+        }
+        return Character.toString(character);
     }
     
     
@@ -156,7 +167,7 @@ public class Piece{
                 break;
             
             default:
-                result = "EMPTY";
+                result = "EMPTY ERROR";
                 break;
             
         }

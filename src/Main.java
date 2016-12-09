@@ -53,7 +53,7 @@ public class Main{
         [0] [0] [3] [0] [0] [0] [0] [0]
         [0] [0] [3] [0] [0] [0] [0] [0]
          */
-        Piece piece = new Piece(ROOK);
+        Piece piece = new Piece(ROOK, true);
         piece.setPosition(new Point(2, 3));
         board.addToBoard(piece);
         boolean continuer = true;
@@ -67,6 +67,7 @@ public class Main{
             try{
                 switch(fonction.charAt(0)){
                     case 'p':
+                        
                         controller.showBoard();
                         
                         break;

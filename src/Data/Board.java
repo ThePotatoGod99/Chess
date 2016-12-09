@@ -12,7 +12,7 @@ public class Board{
     public static final char EMPTY = ' ';//change to char
     public static final char ROOK = '2';
     public static final char SELECTED = 'O';
-    public static final char POSSIBLE_DIRECTION = 'X';
+   public static final char POSSIBLE_DIRECTION = 'X';
     
     private final int width = 8;
     private final int height = 8;
@@ -36,7 +36,7 @@ public class Board{
     
     
     public boolean movePiece(Piece piece, Point point){
-        if(objectAt(point).getType() == POSSIBLE_DIRECTION){
+        if(objectAt(point).isPossibleDestination){
             Piece emptyPiece = Piece.createEmptyAt(selectedPiece);
             getSelectedPiece().setPosition(point);
             addToBoard(getSelectedPiece());
@@ -55,7 +55,7 @@ public class Board{
     public void resetBoard(){
         for(Piece[] row:data){
             for(Piece piece : row){
-                if(piece.getType() == POSSIBLE_DIRECTION){
+                if(piece.isPossibleDestination){
                     piece.setType(EMPTY);
                 }
             }
@@ -67,7 +67,8 @@ public class Board{
         Board board = new Board();
         for(int y = theData.length - 1; y >= 0; y--){
             for(int x = 0; x < theData[y].length; x++){
-                Piece piece = new Piece(theData[x][y]);
+                char type = theData[x][y];
+                Piece piece = new Piece(type, false);
                 piece.setPosition(new Point(x, y));
                 board.addToBoard(piece);
             }
@@ -78,7 +79,7 @@ public class Board{
     public void showPossibleDirectionForSelectedPiece(){
         Point[] result = getSelectedPiece().getPossibleDirection(this);
         for(Point point : result){//To delete
-            addToBoard(Piece.createXAt(new Point(point.x, point.y)));
+            addToBoard(Piece.createXAt(objectAt(point)));
         }
     }
     

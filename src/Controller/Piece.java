@@ -3,9 +3,7 @@ package Controller;
 import Data.Board;
 import Data.Point;
 
-import static Data.Board.EMPTY;
-import static Data.Board.ROOK;
-import static Data.Board.SELECTED;
+import static Data.Board.*;
 
 /**
  * Created by simon on 06/12/16.
@@ -17,21 +15,28 @@ public class Piece{
     public Point position;
     public char type;//tochange
     
-    public boolean selected = false;
+    public boolean isTeamWhite;
     
-    public Piece(char theType){
+    public boolean selected = false;
+    public boolean isPossibleDestination = false;
+    
+    public Piece(char theType, boolean isTeamWhite){
         type = theType;
+        this.isTeamWhite = isTeamWhite;
     }
    
     public static Piece createEmptyAt(Point position){
-        Piece piece = new Piece(EMPTY);
+        Piece piece = new Piece(EMPTY, false);
         piece.setPosition(position);
         return piece;
     }
-    public static Piece createXAt(Point position){
-        Piece piece = new Piece('X');
-        piece.setPosition(position);
-        return piece;
+    public static Piece createXAt(Piece piece){
+        Piece newPiece = new Piece(piece.type, piece.isTeamWhite);
+        newPiece.isPossibleDestination = true;
+        newPiece.setPosition(piece.position);
+        
+        System.out.println(piece.position.x + " : " +piece.position.y);
+        return newPiece;
     }
     public Point[] getPossibleDirection(Board theBoard){
         Point[] result = new Point[0];
@@ -53,7 +58,11 @@ public class Piece{
         Point[] result = new Point[64];
         int i = 0;
         for(int x = thePosition.x + 1; x < theBoard.getWidth() && theBoard.objectAt(new Point(x, thePosition.y)).type == EMPTY; x++){//Direction right
-            if(theBoard.objectAt(new Point(x, thePosition.y)).type == EMPTY){
+            Piece object = theBoard.objectAt(new Point(x, thePosition.y));
+            if(object.type == EMPTY || object.isTeamWhite != this.isTeamWhite){
+                if(object.isTeamWhite != this.isTeamWhite){
+                    break;
+                }
                 result[i] = new Point(x, thePosition.y);
                 i++;
             }
@@ -96,11 +105,14 @@ public class Piece{
         this.type = type;
     }
     public char getType(){
-        if(!selected){
-            return type;
+        if(selected){
+            return SELECTED;
+        }
+        else if(isPossibleDestination){
+            return POSSIBLE_DIRECTION;
         }
         else{
-            return SELECTED;
+            return type;
         }
     }
     

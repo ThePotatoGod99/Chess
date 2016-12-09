@@ -42,7 +42,6 @@ public class GameController{
     }
     
     public void showBoard(){
-        
         gameView.printBoard(board);
     }
     

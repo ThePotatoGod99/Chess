@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import static Data.Board.EMPTY;
+import static Data.Board.KNIGHT;
 import static Data.Board.ROOK;
 
 /**
@@ -31,11 +32,11 @@ public class Main{
         Board board = new Board();
         
         int[] allo7 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
-        int[] allo6 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
-        int[] allo5 = {EMPTY, EMPTY, EMPTY, EMPTY, ROOK, EMPTY, EMPTY, EMPTY};
+        int[] allo6 = {EMPTY, EMPTY, KNIGHT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+        int[] allo5 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
         int[] allo4 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
         int[] allo3 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
-        int[] allo2 = {3, 3, 3, EMPTY, EMPTY, 3, 3, 4};
+        int[] allo2 = {9, 9, 9, EMPTY, EMPTY, 9, 9, 4};
         int[] allo1 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
         int[] allo0 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
         int[][] allo = {allo0, allo1, allo2, allo3, allo4, allo5, allo6, allo7};
@@ -62,9 +63,15 @@ public class Main{
         GameController controller = new GameController(board);
         controller.initCommandLineView();
         
+        
+        Piece newPiece = new Piece(KNIGHT, true);
+        newPiece.setPosition(new Point(5, 4));
+        board.addToBoard(newPiece);
+        
+        System.out.print(board.objectAt(new Point(2,1)).type);
         while(continuer){
             String fonction = scanInput();
-            try{
+            //try{
                 switch(fonction.charAt(0)){
                     case 'p':
                         
@@ -81,16 +88,18 @@ public class Main{
                     case 'm':
                         x = fonction.charAt(1) - '0';
                         y = fonction.charAt(2) - '0';
+    
                         if(!controller.moveSelectedPiece(new Point(x, y))){
                             System.out.println("Select Valid Destination");
                         }
+                        System.out.println("ASDF");
                         break;
                     default:
                         break;
                 }
-            } catch(IndexOutOfBoundsException e){
-                System.out.println("Command not found");
-            }
+            //} catch(IndexOutOfBoundsException e){
+            //    System.out.println("Command not found");
+            //}
         }
     }
     

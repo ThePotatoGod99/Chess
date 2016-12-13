@@ -13,5 +13,10 @@ public class Point{
     public boolean equals(Point point2){
         return (x == point2.x && y == point2.y);
     }
-    
+    public boolean isInRect(float width, float height){
+        return (x < width && x >= 0 && y >= 0 && y < height);
+    }
+    /*public boolean isInMatrix(Point[][] matrix){
+     return false;
+    }*/
 }

@@ -42,7 +42,10 @@ public class Piece{
         Point[] result = new Point[0];
         switch(type){
             case ROOK:
-                result = getPossibleRookDirection(theBoard, position);
+                result = getPossibleRookDirection(theBoard);
+                break;
+            case KNIGHT:
+                result = getPossibleKnightDirection(theBoard);
                 break;
             default:
                 System.out.println("ERROR " + getType() + " ]");
@@ -54,58 +57,58 @@ public class Piece{
         return result;
     }
     
-    public Point[] getPossibleRookDirection(Board theBoard, Point thePosition){
+    public Point[] getPossibleRookDirection(Board theBoard){//Point thePosition){
         Point[] result = new Point[64];
         int i = 0;
-        for(int x = thePosition.x + 1; x < theBoard.getWidth(); x++){//Direction right
-            Piece object = theBoard.objectAt(new Point(x, thePosition.y));
+        for(int x = position.x + 1; x < theBoard.getWidth(); x++){//Direction right
+            Piece object = theBoard.objectAt(new Point(x, position.y));
             if(object.type == EMPTY){
-                result[i] = new Point(x, thePosition.y);
+                result[i] = new Point(x, position.y);
                 i++;
             }
             else if(object.isTeamWhite != this.isTeamWhite){
-                result[i] = new Point(x, thePosition.y);
+                result[i] = new Point(x, position.y);
                 i++;
                 break;
             }
         }
         
-        for(int x = thePosition.x - 1; x >= 0; x--){//Direction left
-            Piece object = theBoard.objectAt(new Point(x, thePosition.y));
+        for(int x = position.x - 1; x >= 0; x--){//Direction left
+            Piece object = theBoard.objectAt(new Point(x, position.y));
             if(object.type == EMPTY){
-                result[i] = new Point(x, thePosition.y);
+                result[i] = new Point(x, position.y);
                 i++;
             }
             else if(object.isTeamWhite != this.isTeamWhite){
-                result[i] = new Point(x, thePosition.y);
+                result[i] = new Point(x, position.y);
                 i++;
                 break;
             }
         }
         
-        for(int y = thePosition.y + 1; y < theBoard.getHeight(); y++){//Direction down
-            Piece object = theBoard.objectAt(new Point(thePosition.x, y));
+        for(int y = position.y + 1; y < theBoard.getHeight(); y++){//Direction down
+            Piece object = theBoard.objectAt(new Point(position.x, y));
             if(object.type == EMPTY){
-                result[i] = new Point(thePosition.x, y);
+                result[i] = new Point(position.x, y);
                 i++;
             }
             else if(object.isTeamWhite != this.isTeamWhite){
-                result[i] = new Point(thePosition.x, y);
+                result[i] = new Point(position.x, y);
                 i++;
                 break;
             }
         }
         
-        for(int y = thePosition.y - 1; y >= 0; y--){//Direction down
-    
-            Piece object = theBoard.objectAt(new Point(thePosition.x, y));
+        for(int y = position.y - 1; y >= 0; y--){//Direction down
+            
+            Piece object = theBoard.objectAt(new Point(position.x, y));
             if(object.type == EMPTY){
-                result[i] = new Point(thePosition.x, y);
+                result[i] = new Point(position.x, y);
                 
                 i++;
             }
             else if(object.isTeamWhite != this.isTeamWhite){
-                result[i] = new Point(thePosition.x, y);
+                result[i] = new Point(position.x, y);
                 i++;
                 break;
             }
@@ -118,6 +121,48 @@ public class Piece{
         }
         
         return result1;
+    }
+    
+    public Point[] getPossibleKnightDirection(Board theBoard){
+        Point[] result = new Point[64];
+        int i = 0;
+        
+        int x = 2;
+        int y = 1;
+        
+        for(int j = 0; j < 8; j++){
+            
+            Point point = new Point(x + position.x, y + position.y);
+            if(point.isInRect(theBoard.getWidth(), theBoard.getHeight())){
+                
+                
+                Piece object = theBoard.objectAt(point);
+                if(object.type == EMPTY || object.isTeamWhite != this.isTeamWhite){
+                    result[i] = point;
+                    i++;
+                }
+                
+                if(y <= 0){
+                    x += (x < 0) ? 1 : -1;
+                    y--;
+                    
+                }
+                y *= -1;
+                if(x == 0){
+                    y = 1;
+                    x = -2;
+                }
+            }
+            
+        }
+        
+        Point[] result1 = new Point[i];
+        for(int j = 0; j < i; j++){
+            result1[j] = result[j];
+        }
+        
+        return result1;
+        
     }
     
     public void setType(int type){
@@ -134,7 +179,7 @@ public class Piece{
     }
     
     public String getStringType(){
-        char character = (char)getType();
+        char character = (char) getType();
         switch(getType()){
             case SELECTED:
                 character = 'O';
@@ -145,8 +190,8 @@ public class Piece{
             default:
                 character += '0';
                 break;
-                
-                
+            
+            
         }
         return Character.toString(character);
     }
@@ -164,6 +209,9 @@ public class Piece{
                 break;
             case ROOK:
                 result = "ROOK";
+                break;
+            case KNIGHT:
+                result = "KNIGHT";
                 break;
             
             default:

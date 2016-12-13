@@ -11,11 +11,12 @@ import java.awt.*;
 public class Board{
     public static final int EMPTY = -1;//change to char
     public static final int ROOK = 2;
+    public static final int KNIGHT = 3;
     public static final int SELECTED = 0;
     public static final int POSSIBLE_DIRECTION = -2;
     
-    private final int width = 8;
-    private final int height = 8;
+    private static final int width = 8;
+    private static final int height = 8;
     
     private Piece[][] data = new Piece[width][height];
     private Point selectedPiece;
@@ -95,6 +96,7 @@ public class Board{
     }
     
     public void setSelectedPiece(Piece thePiece){
+        
         if(selectedPiece != null){
             getSelectedPiece().selected = false;
         }

@@ -59,7 +59,7 @@ public class Main{
         board.addToBoard(piece);
         boolean continuer = true;
         board.setSelectedPiece(board.objectAt(new Point(2, 3)));
-    
+        
         GameController controller = new GameController(board);
         controller.initCommandLineView();
         
@@ -68,10 +68,10 @@ public class Main{
         newPiece.setPosition(new Point(5, 4));
         board.addToBoard(newPiece);
         
-        System.out.print(board.objectAt(new Point(2,1)).type);
+        System.out.print(board.objectAt(new Point(2, 1)).type);
         while(continuer){
             String fonction = scanInput();
-            //try{
+            try{
                 switch(fonction.charAt(0)){
                     case 'p':
                         
@@ -88,7 +88,7 @@ public class Main{
                     case 'm':
                         x = fonction.charAt(1) - '0';
                         y = fonction.charAt(2) - '0';
-    
+                        
                         if(!controller.moveSelectedPiece(new Point(x, y))){
                             System.out.println("Select Valid Destination");
                         }
@@ -97,9 +97,10 @@ public class Main{
                     default:
                         break;
                 }
-            //} catch(IndexOutOfBoundsException e){
-            //    System.out.println("Command not found");
-            //}
+            }
+            catch(IndexOutOfBoundsException e){
+                System.out.println("Command not found");
+            }
         }
     }
     
@@ -109,7 +110,8 @@ public class Main{
             BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
             return bufferRead.readLine();
             
-        } catch(IOException e){
+        }
+        catch(IOException e){
             e.printStackTrace();
         }
         return null;

@@ -16,7 +16,4 @@ public class Point{
     public boolean isInRect(float width, float height){
         return (x < width && x >= 0 && y >= 0 && y < height);
     }
-    /*public boolean isInMatrix(Point[][] matrix){
-     return false;
-    }*/
 }

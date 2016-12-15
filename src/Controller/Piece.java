@@ -61,78 +61,65 @@ public class Piece{
     }
     
     public Point[] getPossibleRookDirection(Board theBoard){//Point thePosition){
+    
         Point[] result = new Point[64];
+    
         int i = 0;
-        for(int x = position.x + 1; x < theBoard.getWidth(); x++){//Direction right
-            Piece object = theBoard.objectAt(new Point(x, position.y));
-            if(object.type == EMPTY){
-                result[i] = new Point(x, position.y);
-                i++;
-            }
-            else{
-                if(object.isTeamWhite != this.isTeamWhite){
-                    result[i] = new Point(x, position.y);
+        Point point = new Point(1, 0);
+    
+        int limitsReached = 0; //Stop when reaches 4 limits (end of board or pieces)
+        Piece object;
+    
+        int nbToAddToX = 1;
+        int nbToAddToY = 0;
+        boolean checkNextDirection = false;
+        Point absolutePoint;
+        while(limitsReached < 4){
+            absolutePoint = point.addPoint(position);
+            if(absolutePoint.isInRect(theBoard.getWidth(), theBoard.getHeight())){
+                object = theBoard.objectAt(absolutePoint);
+                if(object.type == EMPTY){
+                    result[i] = absolutePoint;
                     i++;
                 }
-                break;
-            }
-        }
-        
-        for(int x = position.x - 1; x >= 0; x--){//Direction left
-            Piece object = theBoard.objectAt(new Point(x, position.y));
-            if(object.type == EMPTY){
-                result[i] = new Point(x, position.y);
-                i++;
+                else{
+                    if(object.isTeamWhite != this.isTeamWhite){
+                        result[i] = absolutePoint;
+                        i++;
+                    }
+                    checkNextDirection = true;
+                }
             }
             else{
-                if(object.isTeamWhite != this.isTeamWhite){
-                    result[i] = new Point(x, position.y);
-                    i++;
+                checkNextDirection = true;
+            }
+            if(checkNextDirection){
+                checkNextDirection = false;
+                limitsReached++;
+                switch(limitsReached){
+                    case 1:
+                        nbToAddToX = -1;
+                        nbToAddToY = 0;
+                        break;
+                    case 2:
+                        nbToAddToX = 0;
+                        nbToAddToY = 1;
+                        break;
+                    case 3:
+                        nbToAddToX = 0;
+                        nbToAddToY = -1;
+                        break;
                 }
-                break;
+                point.x = 0;
+                point.y = 0;
             }
+            point.x += nbToAddToX;
+            point.y += nbToAddToY;
         }
-        
-        
-        for(int y = position.y + 1; y < theBoard.getHeight(); y++){//Direction down
-            Piece object = theBoard.objectAt(new Point(position.x, y));
-            if(object.type == EMPTY){
-                result[i] = new Point(position.x, y);
-                i++;
-            }
-            else{
-                if(object.isTeamWhite != this.isTeamWhite){
-                    result[i] = new Point(position.x, y);
-                    i++;
-                    
-                }
-                break;
-            }
-        }
-        
-        for(int y = position.y - 1; y >= 0; y--){//Direction down
-            
-            Piece object = theBoard.objectAt(new Point(position.x, y));
-            if(object.type == EMPTY){
-                result[i] = new Point(position.x, y);
-                
-                i++;
-            }
-            else{
-                if(object.isTeamWhite != this.isTeamWhite){
-                    result[i] = new Point(position.x, y);
-                    i++;
-                }
-                break;
-            }
-        }
-        
-        
         Point[] result1 = new Point[i];
         for(int j = 0; j < i; j++){
             result1[j] = result[j];
         }
-        
         return result1;
     }
     
@@ -144,11 +131,8 @@ public class Piece{
         int y = 1;
         
         for(int j = 0; j < 8; j++){
-            
             Point point = new Point(x + position.x, y + position.y);
             if(point.isInRect(theBoard.getWidth(), theBoard.getHeight())){
-                
-                
                 Piece object = theBoard.objectAt(point);
                 if(object.type == EMPTY || object.isTeamWhite != this.isTeamWhite){
                     result[i] = point;
@@ -165,15 +149,11 @@ public class Piece{
                 y = 1;
                 x = -2;
             }
-            
-            
         }
-        
         Point[] result1 = new Point[i];
         for(int j = 0; j < i; j++){
             result1[j] = result[j];
         }
-        
         return result1;
         
     }
@@ -182,8 +162,6 @@ public class Piece{
         Point[] result = new Point[64];
         
         int i = 0;
-        
-        
         Point point = new Point(1, 1);
         
         int limitsReached = 0; //Stop when reaches 4 limits (end of board or pieces)
@@ -197,8 +175,6 @@ public class Piece{
             absolutePoint = point.addPoint(position);
             if(absolutePoint.isInRect(theBoard.getWidth(), theBoard.getHeight())){
                 object = theBoard.objectAt(absolutePoint);
-    
-                
                 if(object.type == EMPTY){
                     result[i] = absolutePoint;
                     i++;
@@ -209,7 +185,6 @@ public class Piece{
                         i++;
                     }
                     checkNextDirection = true;
-                    
                 }
             }
             else{
@@ -228,14 +203,10 @@ public class Piece{
             point.x += nbToAddToX;
             point.y += nbToAddToY;
         }
-        
-        
         Point[] result1 = new Point[i];
         for(int j = 0; j < i; j++){
             result1[j] = result[j];
         }
-        
-        
         return result1;
     }
     

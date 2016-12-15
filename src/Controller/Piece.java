@@ -11,20 +11,20 @@ import static Data.Board.*;
 public class Piece{
     
     
-    boolean isDead = false;
     public Point position;
     public int type;//tochange
-    
     public boolean isTeamWhite;
-    
     public boolean selected = false;
     public boolean isPossibleDestination = false;
+    boolean isDead = false;
     
     public Piece(int theType, boolean isTeamWhite){
         type = theType;
         this.isTeamWhite = isTeamWhite;
     }
     
+    public Piece(){
+    }
     public static Piece createEmptyAt(Point position){
         Piece piece = new Piece(EMPTY, false);
         piece.setPosition(position);
@@ -47,6 +47,9 @@ public class Piece{
             case KNIGHT:
                 result = getPossibleKnightDirection(theBoard);
                 break;
+            case BISHOP:
+                result = getPossibleBishopDirection(theBoard);
+                break;
             default:
                 System.out.println("ERROR " + getType() + " ]");
                 result = new Point[0];
@@ -66,9 +69,11 @@ public class Piece{
                 result[i] = new Point(x, position.y);
                 i++;
             }
-            else if(object.isTeamWhite != this.isTeamWhite){
-                result[i] = new Point(x, position.y);
-                i++;
+            else{
+                if(object.isTeamWhite != this.isTeamWhite){
+                    result[i] = new Point(x, position.y);
+                    i++;
+                }
                 break;
             }
         }
@@ -79,12 +84,15 @@ public class Piece{
                 result[i] = new Point(x, position.y);
                 i++;
             }
-            else if(object.isTeamWhite != this.isTeamWhite){
-                result[i] = new Point(x, position.y);
-                i++;
+            else{
+                if(object.isTeamWhite != this.isTeamWhite){
+                    result[i] = new Point(x, position.y);
+                    i++;
+                }
                 break;
             }
         }
+        
         
         for(int y = position.y + 1; y < theBoard.getHeight(); y++){//Direction down
             Piece object = theBoard.objectAt(new Point(position.x, y));
@@ -92,9 +100,12 @@ public class Piece{
                 result[i] = new Point(position.x, y);
                 i++;
             }
-            else if(object.isTeamWhite != this.isTeamWhite){
-                result[i] = new Point(position.x, y);
-                i++;
+            else{
+                if(object.isTeamWhite != this.isTeamWhite){
+                    result[i] = new Point(position.x, y);
+                    i++;
+                    
+                }
                 break;
             }
         }
@@ -107,9 +118,11 @@ public class Piece{
                 
                 i++;
             }
-            else if(object.isTeamWhite != this.isTeamWhite){
-                result[i] = new Point(position.x, y);
-                i++;
+            else{
+                if(object.isTeamWhite != this.isTeamWhite){
+                    result[i] = new Point(position.x, y);
+                    i++;
+                }
                 break;
             }
         }
@@ -165,8 +178,65 @@ public class Piece{
         
     }
     
-    public void setType(int type){
-        this.type = type;
+    public Point[] getPossibleBishopDirection(Board theBoard){
+        Point[] result = new Point[64];
+        
+        int i = 0;
+        
+        
+        Point point = new Point(1, 1);
+        
+        int limitsReached = 0; //Stop when reaches 4 limits (end of board or pieces)
+        Piece object;
+        
+        int nbToAddToX = 1;
+        int nbToAddToY = 1;
+        boolean checkNextDirection = false;
+        Point absolutePoint;
+        while(limitsReached < 4){
+            absolutePoint = point.addPoint(position);
+            if(absolutePoint.isInRect(theBoard.getWidth(), theBoard.getHeight())){
+                object = theBoard.objectAt(absolutePoint);
+    
+                
+                if(object.type == EMPTY){
+                    result[i] = absolutePoint;
+                    i++;
+                }
+                else{
+                    if(object.isTeamWhite != this.isTeamWhite){
+                        result[i] = absolutePoint;
+                        i++;
+                    }
+                    checkNextDirection = true;
+                    
+                }
+            }
+            else{
+                checkNextDirection = true;
+            }
+            if(checkNextDirection){
+                checkNextDirection = false;
+                limitsReached++;
+                nbToAddToX *= -1;
+                if(nbToAddToX < 0){
+                    nbToAddToY *= -1;
+                }
+                point.x = 0;
+                point.y = 0;
+            }
+            point.x += nbToAddToX;
+            point.y += nbToAddToY;
+        }
+        
+        
+        Point[] result1 = new Point[i];
+        for(int j = 0; j < i; j++){
+            result1[j] = result[j];
+        }
+        
+        
+        return result1;
     }
     
     public int getType(){
@@ -176,6 +246,10 @@ public class Piece{
         else{
             return type;
         }
+    }
+    
+    public void setType(int type){
+        this.type = type;
     }
     
     public String getStringType(){
@@ -212,6 +286,9 @@ public class Piece{
                 break;
             case KNIGHT:
                 result = "KNIGHT";
+                break;
+            case BISHOP:
+                result = "BISHOP";
                 break;
             
             default:

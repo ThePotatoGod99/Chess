@@ -16,4 +16,10 @@ public class Point{
     public boolean isInRect(float width, float height){
         return (x < width && x >= 0 && y >= 0 && y < height);
     }
+    public Point addPoint(Point point2){
+        Point result = new Point(this.x, this.y);
+        result.x += point2.x;
+        result.y += point2.y;
+        return result;
+    }
 }

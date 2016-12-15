@@ -10,9 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static Data.Board.EMPTY;
-import static Data.Board.KNIGHT;
-import static Data.Board.ROOK;
+import static Data.Board.*;
 
 /**
  * Created by simon on 06/12/16.
@@ -68,10 +66,14 @@ public class Main{
         newPiece.setPosition(new Point(5, 4));
         board.addToBoard(newPiece);
         
-        System.out.print(board.objectAt(new Point(2, 1)).type);
+        
+        
+        Piece piece2 = new Piece(BISHOP, false);
+        piece2.setPosition(new Point(1, 2));
+        board.addToBoard(piece2);
         while(continuer){
             String fonction = scanInput();
-            try{
+         //   try{
                 switch(fonction.charAt(0)){
                     case 'p':
                         
@@ -97,10 +99,10 @@ public class Main{
                     default:
                         break;
                 }
-            }
-            catch(IndexOutOfBoundsException e){
-                System.out.println("Command not found");
-            }
+           // }
+          //  catch(IndexOutOfBoundsException e){
+         //       System.out.println("Command not found");
+          //  }
         }
     }
     

@@ -12,6 +12,7 @@ public class Board{
     public static final int EMPTY = -1;//change to char
     public static final int ROOK = 2;
     public static final int KNIGHT = 3;
+    public static final int BISHOP = 4;
     public static final int SELECTED = 0;
     public static final int POSSIBLE_DIRECTION = -2;
     
@@ -80,7 +81,7 @@ public class Board{
     public void showPossibleDirectionForSelectedPiece(){
         Point[] result = getSelectedPiece().getPossibleDirection(this);
         for(Point point : result){//To delete
-            addToBoard(Piece.createXAt(objectAt(point)));
+           addToBoard(Piece.createXAt(objectAt(point)));
         }
     }
     
@@ -96,7 +97,6 @@ public class Board{
     }
     
     public void setSelectedPiece(Piece thePiece){
-        
         if(selectedPiece != null){
             getSelectedPiece().selected = false;
         }

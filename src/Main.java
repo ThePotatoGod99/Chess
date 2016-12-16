@@ -56,7 +56,7 @@ public class Main{
         piece.setPosition(new Point(2, 3));
         board.addToBoard(piece);
         boolean continuer = true;
-        board.setSelectedPiece(board.objectAt(new Point(2, 3)));
+        board.setSelectedPiece(board.objectAt(new Point(5, 4)));
         
         GameController controller = new GameController(board);
         controller.initCommandLineView();
@@ -68,7 +68,7 @@ public class Main{
         
         
         
-        Piece piece2 = new Piece(QUEEN, false);
+        Piece piece2 = new Piece(KING, false);
         piece2.setPosition(new Point(1, 2));
         board.addToBoard(piece2);
         while(continuer){

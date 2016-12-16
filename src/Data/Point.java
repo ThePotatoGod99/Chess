@@ -22,4 +22,8 @@ public class Point{
         result.y += point2.y;
         return result;
     }
+    
+    public void print(){
+        System.out.println("[" + x + " : " + y + "]");
+    }
 }

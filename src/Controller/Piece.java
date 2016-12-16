@@ -53,6 +53,9 @@ public class Piece{
             case QUEEN:
                 result = getPossibleQueenDirection(theBoard);
                 break;
+            case KING:
+                result = getPossibleKingDirection(theBoard);
+                break;
             default:
                 System.out.println("ERROR " + getType() + " ]");
                 result = new Point[0];
@@ -230,6 +233,48 @@ public class Piece{
         return result;
         
     }
+    public Point[] getPossibleKingDirection(Board theBoard){
+        Point[] result = new Point[8];
+        
+        Point relativePosition = new Point(-1, -1);
+        Point absolutePosition;
+        int possibilityNb = 0;
+        Piece pieceAt;
+        for(int i = 0; i < 8; i++){
+            absolutePosition = position.addPoint(relativePosition);
+            if(absolutePosition.isInRect(theBoard.getWidth(), theBoard.getHeight())){
+                pieceAt = theBoard.objectAt(absolutePosition);
+                if(pieceAt.isTeamWhite != this.isTeamWhite || pieceAt.type == EMPTY){
+                    result[possibilityNb] = absolutePosition;
+                    possibilityNb++;
+                }
+            }
+            if(relativePosition.y == 0){
+                if(relativePosition.x == 1){
+                    relativePosition.x = 0;
+                }
+                else{
+                    relativePosition.x = 1;
+                }
+                relativePosition.y = -1;
+            }
+            else if(relativePosition.y == -1 ){
+                relativePosition.y = 1;
+            }
+            else if(relativePosition.y == 1){
+                relativePosition.y = 0;
+            }
+        }
+        if(result.length != possibilityNb){
+            Point[] result1 = new Point[possibilityNb];
+            for(int j = 0; j < possibilityNb; j++){
+                result1[j] = result[j];
+            }
+            return result1;
+        }
+        return result;
+        
+    }
     
     public int getType(){
         if(selected){
@@ -284,6 +329,9 @@ public class Piece{
                 break;
             case QUEEN:
                 result = "QUEEN";
+                break;
+            case KING:
+                result = "KING";
                 break;
             
             default:

@@ -68,7 +68,7 @@ public class Main{
         
         
         
-        Piece piece2 = new Piece(BISHOP, false);
+        Piece piece2 = new Piece(QUEEN, false);
         piece2.setPosition(new Point(1, 2));
         board.addToBoard(piece2);
         while(continuer){
@@ -94,7 +94,6 @@ public class Main{
                         if(!controller.moveSelectedPiece(new Point(x, y))){
                             System.out.println("Select Valid Destination");
                         }
-                        System.out.println("ASDF");
                         break;
                     default:
                         break;

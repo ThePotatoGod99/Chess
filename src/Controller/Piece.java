@@ -50,6 +50,9 @@ public class Piece{
             case BISHOP:
                 result = getPossibleBishopDirection(theBoard);
                 break;
+            case QUEEN:
+                result = getPossibleQueenDirection(theBoard);
+                break;
             default:
                 System.out.println("ERROR " + getType() + " ]");
                 result = new Point[0];
@@ -209,6 +212,24 @@ public class Piece{
         }
         return result1;
     }
+    public Point[] getPossibleQueenDirection(Board theBoard){
+        
+        Point[] directionsStraight = getPossibleRookDirection(theBoard);
+        Point[] directionsDiagonal = getPossibleBishopDirection(theBoard);
+        
+        Point[] result = new Point[directionsStraight.length + directionsDiagonal.length];
+        int i = 0;
+        for(Point point : directionsStraight){
+            result[i] = point;
+            i++;
+        }
+        for(Point point: directionsDiagonal){
+            result[i] = point;
+            i++;
+        }
+        return result;
+        
+    }
     
     public int getType(){
         if(selected){
@@ -260,6 +281,9 @@ public class Piece{
                 break;
             case BISHOP:
                 result = "BISHOP";
+                break;
+            case QUEEN:
+                result = "QUEEN";
                 break;
             
             default:

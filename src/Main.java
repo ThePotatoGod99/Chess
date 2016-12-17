@@ -80,12 +80,20 @@ public class Main{
                             System.out.println("Select Valid Destination");
                         }
                         break;
+                    case 'l':
+                        System.out.println("1: Pawn\n2: Rook\n 3: Knight\n 4: Bishop\n 5: Queen\n 6: King\n\nWhite pieces are written like this: |x|\nBlack pieces are written like this: [x]\n");
+                        break;
+                    case 'h':
+                        System.out.println("'p' to show the board.\n'e' to exit\n's' to select piece (type \"s21\" to select the piece at the position 2-1)\n'm' to move the piece (type \"m23\" to move to 2-3)\n'l' show the legend\n");
+                                
+                        break;
                     default:
+                        System.out.println("Type 'h' for help");
                         break;
                 }
             }
             catch(IndexOutOfBoundsException e){
-                System.out.println("Command not found");
+                System.out.println("Command not found. Write 'h' for help");
             }
         }
     }

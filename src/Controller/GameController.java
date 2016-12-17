@@ -4,6 +4,11 @@ import Data.Board;
 import Data.Point;
 import View.CommandLineView;
 import View.GameView;
+import sun.invoke.empty.Empty;
+
+import java.util.EnumMap;
+
+import static Data.Board.EMPTY;
 
 /**
  * Created by simon on 08/12/16.
@@ -11,6 +16,8 @@ import View.GameView;
 public class GameController{
     private Board board;
     private GameView gameView;
+    
+    private boolean isWhiteTurn = true;
     
     public GameController(Board board){
         this.board = board;
@@ -21,7 +28,12 @@ public class GameController{
     }
     
     public boolean movePiece(Piece piece, Point point){
-        return board.movePiece(piece, point);
+        boolean result = board.movePiece(piece, point);
+        if(result){
+            isWhiteTurn ^= true;
+            selectNullPiece();
+        }
+        return result;
     }
     
     public boolean moveSelectedPiece(Point point){
@@ -29,8 +41,18 @@ public class GameController{
     }
     
     public boolean selectPiece(Point point){
-        board.setSelectedPiece(board.objectAt(point));
-        return true; //TO CHANGE
+        Piece object = board.objectAt(point);
+        if(object.isTeamWhite == isWhiteTurn && object.type != EMPTY){
+            board.setSelectedPiece(object);
+            return true;
+        }
+        
+        System.out.println("Please select one of your pieces");
+        return false;
+    }
+    
+    public void selectNullPiece(){
+        board.selectNullPiece();
     }
     
     public void updateBoard(){

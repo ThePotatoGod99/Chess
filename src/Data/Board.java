@@ -10,13 +10,12 @@ import java.awt.*;
  */
 public class Board{
     public static final int EMPTY = -1;//change to char
+    public static final int PAWN = 1;
     public static final int ROOK = 2;
     public static final int KNIGHT = 3;
     public static final int BISHOP = 4;
     public static final int QUEEN = 5;
     public static final int KING = 6;
-    public static final int SELECTED = 0;
-    public static final int POSSIBLE_DIRECTION = -2;
     
     private static final int width = 8;
     private static final int height = 8;
@@ -25,8 +24,7 @@ public class Board{
     private Point selectedPiece;
     
     public Board(){
-        
-        selectedPiece = new Point(2, 3);
+        selectedPiece = null;
         for(int i = 0; i < data.length; i++){
             for(int j = 0; j < data[i].length; j++){
                 this.addToBoard(Piece.createEmptyAt(new Point(i, j)));
@@ -63,7 +61,9 @@ public class Board{
                 piece.isPossibleDestination = false;
             }
         }
-        showPossibleDirectionForSelectedPiece();
+        if(selectedPiece != null){
+            showPossibleDirectionForSelectedPiece();
+        }
         
     }
     
@@ -71,9 +71,14 @@ public class Board{
         Board board = new Board();
         for(int y = theData.length - 1; y >= 0; y--){
             for(int x = 0; x < theData[y].length; x++){
+                boolean isTeamWhite = false;
+                if(y < width / 2){
+                    isTeamWhite = true;
+                }
                 int type = theData[x][y];
-                Piece piece = new Piece(type, false);
+                Piece piece = new Piece(type, isTeamWhite);
                 piece.setPosition(new Point(x, y));
+                piece.setOriginalPosition(piece.position);
                 board.addToBoard(piece);
             }
         }
@@ -83,7 +88,7 @@ public class Board{
     public void showPossibleDirectionForSelectedPiece(){
         Point[] result = getSelectedPiece().getPossibleDirection(this);
         for(Point point : result){//To delete
-           addToBoard(Piece.createXAt(objectAt(point)));
+            objectAt(point).isPossibleDestination = true;
         }
     }
     
@@ -95,7 +100,12 @@ public class Board{
     }
     
     public Piece getSelectedPiece(){
-        return objectAt(selectedPiece);
+        if(selectedPiece != null){
+            return objectAt(selectedPiece);
+        }
+        else{
+            return null;
+        }
     }
     
     public void setSelectedPiece(Piece thePiece){
@@ -104,6 +114,12 @@ public class Board{
         }
         selectedPiece = thePiece.position;
         getSelectedPiece().selected = true;
+        resetBoard();
+    }
+    
+    public void selectNullPiece(){
+        getSelectedPiece().selected = false;
+        selectedPiece = null;
         resetBoard();
     }
     

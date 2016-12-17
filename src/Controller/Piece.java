@@ -18,29 +18,29 @@ public class Piece{
     public boolean isPossibleDestination = false;
     boolean isDead = false;
     
+    public Point originalPosition;
+    
     public Piece(int theType, boolean isTeamWhite){
         type = theType;
         this.isTeamWhite = isTeamWhite;
     }
     
+    
     public Piece(){
     }
+    
     public static Piece createEmptyAt(Point position){
         Piece piece = new Piece(EMPTY, false);
         piece.setPosition(position);
         return piece;
     }
     
-    public static Piece createXAt(Piece piece){
-        Piece newPiece = new Piece(piece.type, piece.isTeamWhite);
-        newPiece.isPossibleDestination = true;
-        newPiece.setPosition(piece.position);
-        return newPiece;
-    }
-    
     public Point[] getPossibleDirection(Board theBoard){
-        Point[] result = new Point[0];
+        Point[] result;// = new Point[0];
         switch(type){
+            case PAWN:
+                result = getPossiblePawnDirection(theBoard);
+                break;
             case ROOK:
                 result = getPossibleRookDirection(theBoard);
                 break;
@@ -66,16 +66,66 @@ public class Piece{
         return result;
     }
     
-    public Point[] getPossibleRookDirection(Board theBoard){//Point thePosition){
+    public Point[] getPossiblePawnDirection(Board theBoard){
+        Point[] result = new Point[4];
+        
+        int directionY = 1;
+        if(!isTeamWhite){
+            directionY = -1;
+        }
+        Point relativePoint = new Point(-1, directionY);
+        Point absolutePoint;
+        Piece object;
+        int possibilityNb = 0;
+        int i = 0;
+        for(i = 0; i < 3; i++){
+            absolutePoint = relativePoint.addPoint(position);
+            if(absolutePoint.isInRect(theBoard.getWidth(), theBoard.getHeight())){
+                object = theBoard.objectAt(absolutePoint);
+                if(object.type == EMPTY){
+                    if(relativePoint.x == 0){
+                        result[possibilityNb] = absolutePoint;
+                        possibilityNb++;
+                    }
+                }
+                else if(object.isTeamWhite != this.isTeamWhite && relativePoint.x != 0){
+                    result[possibilityNb] = absolutePoint;
+                    possibilityNb++;
+                }
+            }
+            relativePoint.x++;
+        }
+        if(position.equals(originalPosition)){
+            relativePoint.x = 0;
+            relativePoint.y = directionY * 2;
+            absolutePoint = relativePoint.addPoint(position);
+            object = theBoard.objectAt(absolutePoint);
+            if(object.type == EMPTY){
+                result[possibilityNb] = absolutePoint;
+                possibilityNb++;
+            }
+        }
+        
+        if(result.length != possibilityNb){
+            Point[] result1 = new Point[possibilityNb];
+            for(int j = 0; j < possibilityNb; j++){
+                result1[j] = result[j];
+            }
+            return result1;
+        }
+        return result;
+    }
     
+    public Point[] getPossibleRookDirection(Board theBoard){
+        
         Point[] result = new Point[64];
-    
+        
         int i = 0;
         Point point = new Point(1, 0);
-    
+        
         int limitsReached = 0; //Stop when reaches 4 limits (end of board or pieces)
         Piece object;
-    
+        
         int nbToAddToX = 1;
         int nbToAddToY = 0;
         boolean checkNextDirection = false;
@@ -215,6 +265,7 @@ public class Piece{
         }
         return result1;
     }
+    
     public Point[] getPossibleQueenDirection(Board theBoard){
         
         Point[] directionsStraight = getPossibleRookDirection(theBoard);
@@ -226,13 +277,14 @@ public class Piece{
             result[i] = point;
             i++;
         }
-        for(Point point: directionsDiagonal){
+        for(Point point : directionsDiagonal){
             result[i] = point;
             i++;
         }
         return result;
         
     }
+    
     public Point[] getPossibleKingDirection(Board theBoard){
         Point[] result = new Point[8];
         
@@ -258,7 +310,7 @@ public class Piece{
                 }
                 relativePosition.y = -1;
             }
-            else if(relativePosition.y == -1 ){
+            else if(relativePosition.y == -1){
                 relativePosition.y = 1;
             }
             else if(relativePosition.y == 1){
@@ -277,12 +329,7 @@ public class Piece{
     }
     
     public int getType(){
-        if(selected){
-            return SELECTED;
-        }
-        else{
             return type;
-        }
     }
     
     public void setType(int type){
@@ -292,9 +339,6 @@ public class Piece{
     public String getStringType(){
         char character = (char) getType();
         switch(getType()){
-            case SELECTED:
-                character = 'O';
-                break;
             case EMPTY:
                 character = ' ';
                 break;
@@ -311,12 +355,18 @@ public class Piece{
     public void setPosition(Point point){
         position = point;
     }
+    public void setOriginalPosition(Point point){
+        originalPosition = point;
+    }
     
     public String getName(){
         String result = "";
         switch(type){
             case EMPTY:
                 result = "EMPTY";
+                break;
+            case PAWN:
+                result = "PAWN";
                 break;
             case ROOK:
                 result = "ROOK";

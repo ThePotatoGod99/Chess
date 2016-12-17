@@ -29,14 +29,14 @@ public class Main{
         
         Board board = new Board();
         
-        int[] allo7 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
-        int[] allo6 = {EMPTY, EMPTY, KNIGHT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
-        int[] allo5 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
-        int[] allo4 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
-        int[] allo3 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
-        int[] allo2 = {9, 9, 9, EMPTY, EMPTY, 9, 9, 4};
-        int[] allo1 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
-        int[] allo0 = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+        int[] allo7 = {ROOK, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, ROOK};
+        int[] allo6 = {KNIGHT, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, KNIGHT};
+        int[] allo5 = {BISHOP, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, BISHOP};
+        int[] allo4 = {QUEEN, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, QUEEN};
+        int[] allo3 = {KING, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, KING};
+        int[] allo2 = {BISHOP, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, BISHOP};
+        int[] allo1 = {KNIGHT, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, KNIGHT};
+        int[] allo0 = {ROOK, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, ROOK};
         int[][] allo = {allo0, allo1, allo2, allo3, allo4, allo5, allo6, allo7};
         
         
@@ -52,28 +52,13 @@ public class Main{
         [0] [0] [3] [0] [0] [0] [0] [0]
         [0] [0] [3] [0] [0] [0] [0] [0]
          */
-        Piece piece = new Piece(ROOK, true);
-        piece.setPosition(new Point(2, 3));
-        board.addToBoard(piece);
         boolean continuer = true;
-        board.setSelectedPiece(board.objectAt(new Point(5, 4)));
         
         GameController controller = new GameController(board);
         controller.initCommandLineView();
-        
-        
-        Piece newPiece = new Piece(KNIGHT, true);
-        newPiece.setPosition(new Point(5, 4));
-        board.addToBoard(newPiece);
-        
-        
-        
-        Piece piece2 = new Piece(KING, false);
-        piece2.setPosition(new Point(1, 2));
-        board.addToBoard(piece2);
         while(continuer){
             String fonction = scanInput();
-         //   try{
+            try{
                 switch(fonction.charAt(0)){
                     case 'p':
                         
@@ -98,10 +83,10 @@ public class Main{
                     default:
                         break;
                 }
-           // }
-          //  catch(IndexOutOfBoundsException e){
-         //       System.out.println("Command not found");
-          //  }
+            }
+            catch(IndexOutOfBoundsException e){
+                System.out.println("Command not found");
+            }
         }
     }
     

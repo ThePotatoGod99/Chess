@@ -27,6 +27,15 @@ public class CommandLineView extends GameView{
                     }
                     System.out.print(" {" + result + "} ");
                 }
+                else if(object.selected){
+                    System.out.print(" (" + result + ") ");
+                }
+                else if(object.type == EMPTY){
+                    System.out.print("  -  ");
+                }
+                else if(object.isTeamWhite){
+                    System.out.print(" |" + result + "| ");
+                }
                 else{
                     System.out.print(" [" + result + "] ");
                 }

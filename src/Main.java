@@ -32,8 +32,8 @@ public class Main{
         int[] allo7 = {ROOK, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, ROOK};
         int[] allo6 = {KNIGHT, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, KNIGHT};
         int[] allo5 = {BISHOP, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, BISHOP};
-        int[] allo4 = {QUEEN, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, QUEEN};
-        int[] allo3 = {KING, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, KING};
+        int[] allo4 = {KING, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, KING};
+        int[] allo3 = {QUEEN, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, QUEEN};
         int[] allo2 = {BISHOP, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, BISHOP};
         int[] allo1 = {KNIGHT, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, KNIGHT};
         int[] allo0 = {ROOK, PAWN, EMPTY, EMPTY, EMPTY, EMPTY, PAWN, ROOK};

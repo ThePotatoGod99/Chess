@@ -20,7 +20,7 @@ public class Board{
     private static final int width = 8;
     private static final int height = 8;
     
-    private Piece[][] data = new Piece[width][height];
+    private final Piece[][] data = new Piece[width][height];
     private Point selectedPiece;
     
     public Board(){
